@@ -56,7 +56,6 @@ class DetailsController < ApplicationController
       @detail=@employer.build_employer_detail(employer_details_params)
       if @detail.save
         flash[:success]="Profile Created Successfully"
-        byebug
         redirect_to employer_dashboard_path
       else
         render 'new_employer_details'

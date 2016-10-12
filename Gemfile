@@ -60,12 +60,8 @@ group :development, :test do
   gem 'byebug'
   gem 'faker'
   gem 'factory_girl_rails'
-<<<<<<< HEAD
-  gem 'simplecov'
   gem 'capybara'
-=======
   gem 'simplecov',require: false
->>>>>>> 090065e3b6f20a9d0a8edad70a95d9000f8b1bbe
 
   %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
     gem lib #, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
