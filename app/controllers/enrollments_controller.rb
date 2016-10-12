@@ -3,7 +3,6 @@ class EnrollmentsController < ApplicationController
   before_action :check_user
   before_action :check_student_profile,only:[:enroll_for_test,:taketest]
   before_action :get_test_by_id,only:[:enroll_for_test,:taketest,:show_current_question,:submit_clicked,:finish]
-
   before_action :get_enrollment,only:[:taketest,:submit_clicked,:finish]
   before_action :check_test_time,only:[:taketest,:submit_clicked]
 
@@ -16,7 +15,6 @@ class EnrollmentsController < ApplicationController
     @enrollment.record_start_time
     @now=@enrollment.get_start_time
   end
-
 
   def show_current_question
     #get_test_by_id
@@ -32,9 +30,7 @@ class EnrollmentsController < ApplicationController
     #filter time
     @question_id=params[:question][:id]
     @response=params[:response]
-
     @enrollment.save_response_for_question(@response,@question_id)
-
     join_data
     @now=@enrollment.get_start_time
     respond_to do |format|
@@ -43,32 +39,25 @@ class EnrollmentsController < ApplicationController
   end
 
   def enroll_for_test
-
     #check_profile _complete
     @user=current_user
     @tests = Test.all.page(params[:page])
-
     Enrollment.enroll_user_for_test(@current_test,current_user)
-
     @enrolled_test= Enrollment.tests_enrolled_by_user(current_user).pluck(:test_id)
-
     respond_to do |format|
       format.js
     end
   end
 
-
   def finish
     #filter get_test_by_id
     #filter-get_enrollement
     @score=@enrollment.submit_test
-
     #for view
     @total_marks=@current_test.marks
     @total_noq=TestQuestion.get_test_questions_join(@current_test.id).size
     @attempted=@enrollment.response.count
     @percentage=(@score/@total_marks.to_f).round(4)*100
-
     respond_to do |format|
       format.html
       format.js
@@ -84,7 +73,7 @@ class EnrollmentsController < ApplicationController
       if request.xhr?
         render :js=> "window.location = #{student_dashboard_path.to_json}"
       else
-      redirect_to student_dashboard_path
+        redirect_to student_dashboard_path
       end
     end
   end
@@ -113,7 +102,7 @@ class EnrollmentsController < ApplicationController
   end
 
   def check_student_profile
-        if current_user.student_detail.nil?
+      if current_user.student_detail.nil?
           if request.xhr?
             flash[:danger]= 'Complete profile first'
             render :js => "window.location = #{new_student_details_path.to_json}"
@@ -121,12 +110,11 @@ class EnrollmentsController < ApplicationController
             flash[:danger]= 'Complete profile first'
             redirect_to new_student_details_path
           end
-        end
+      end
   end
 
   def check_test_time
     unless @enrollment.start_time.nil?
-      #if
       #if user is trying to take test more than once
       if Time.now.utc > @enrollment.start_time.plus_with_duration(get_total_seconds(@current_test.duration))
         flash[:danger]="Time is over"
@@ -153,7 +141,6 @@ class EnrollmentsController < ApplicationController
     @test_questions=TestQuestion.get_questions_of_test(@current_test)
     #filter attempted
     @unattempted=@test_questions.select{|t| question_attempted(t.question.id,@current_test.id)==false}
-
     #current_question is always first unqttempted
     unless @unattempted.empty?
       #select first question from unattempted list
@@ -165,5 +152,4 @@ class EnrollmentsController < ApplicationController
       @current_question=@test_questions.first.question
     end
   end
-
 end

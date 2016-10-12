@@ -153,7 +153,6 @@ class TestsController < ApplicationController
     def join_data
       #left partial
       @test_questions=TestQuestion.get_questions_of_test(@test)
-
       #right partial
       @questions=Question.get_questions_excluding(@test_questions.map{|t| t.question.id})
     end
