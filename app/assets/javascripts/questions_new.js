@@ -1,40 +1,38 @@
 $(document).ready(function() {
 
-  switch($('.qtype :input:checked').val()){
-    case '0':
-          integer();
-    break;
+    switch ($('.qtype :input:checked').val()) {
+        case '0':
+            integer();
+            break;
 
-    case '1':
-        single_correct();
-    break;
+        case '1':
+            single_correct();
+            break;
 
-    case '2':
-        multiple_correct();
-    break;
-  }
+        case '2':
+            multiple_correct();
+            break;
+    }
 
-  toggleForm();
+    toggleForm();
 
 });
 
-function hello()
-{
+function hello() {
 
-  var person = prompt("Please enter your name"+this, "Harry Potter");
+    var person = prompt("Please enter your name" + this, "Harry Potter");
 
-  $.ajax('/add_question_to_current_test/50/36?marks=3')
+    $.ajax('/add_question_to_current_test/50/36?marks=3')
 }
 
-function freez()
-{
-  $('#correct_answer :hidden :input').each(function(index){
-    $(this).prop('disabled',true);
-  });
+function freez() {
+    $('#correct_answer :hidden :input').each(function(index) {
+        $(this).prop('disabled', true);
+    });
 
-  $('#correct_answer :visible :input').each(function(index){
-    $(this).prop('disabled',false);
-  });
+    $('#correct_answer :visible :input').each(function(index) {
+        $(this).prop('disabled', false);
+    });
 }
 
 function toggleForm() {

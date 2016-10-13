@@ -1,74 +1,77 @@
 <div id="test">
 
-<div class="panel panel-default">
+  <div class="panel panel-default">
     <div class="panel-heading">
-        <h3><%= @current_test.name %></h3>
+      <h3>
+        <%= @current_test.name %>
+      </h3>
     </div>
+  </div>
 
-    <div class="countdown panel-heading pull-right">
-      <h3>Countdown</h3>
+  <div class="countdown panel-heading pull-right">
+    <h3>
+      Countdown
+    </h3>
+  </div>
+
+  <div class="timer hidden">
+    <h3>
+      <%=@current_test.duration.hour*60*60 + @current_test.duration.min*60 + @current_test.duration.sec%>
+    </h3>
+    <h3>
+      <%=@now.hour*60*60 +@now.min*60 + @now.sec %>
+    </h3>
+  </div>
+
+  <div class="panel-body">
+    <div class="col-lg-4 col-sm-4">
+      <table class="table border-right">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Marks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @test_questions.each do |test_question| %>
+            <tr>
+              <td>
+                <%if test_question.question==@current_question%>
+                  <strong>
+                    <%= link_to test_question.question.question,show_current_question_path(test_question.question,:test_id=>@current_test),remote: true%>
+                  </strong>
+                <%elsif question_attempted(test_question.question.id,@current_test.id)%>
+                  <strong>
+                    <%=link_to test_question.question.question,show_current_question_path(test_question.question,:test_id=>@current_test),remote: true,style:"color:black;"%>
+                  </strong>
+                <%else%>
+                  <strong>
+                    <%= link_to test_question.question.question,show_current_question_path(test_question.question,:test_id=>@current_test),remote: true,style:"color:green;" %>
+                  </strong>
+                <%end%>
+              </td>
+
+              <td>
+                <%=  test_question.marks %>
+              </td>
+            </tr>
+          <%- end %>
+        </tbody>
+      </table>
     </div>
+  </div>
 
-    <div class="timer hidden">
-          <h3><%=@current_test.duration.hour*60*60 + @current_test.duration.min*60 + @current_test.duration.sec%></h3>
-          <h3><%=@now.hour*60*60 +@now.min*60 + @now.sec %></h3>
+            <!-- Right -->
+  <div class="col-lg-8">
+    <div id="div_with_current_question">
+      <%= render 'current_selected_question', current_question: @current_question %>
     </div>
+  </div>
 
-    <div class="panel-body">
-        <div class="col-lg-4 col-sm-4">
-            <table class="table border-right">
-                <thead>
-                    <tr>
-                        <th>Question</th>
-                        <th>Marks</th>
 
-                        <th>Attempted</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% @test_questions.each do |test_question| %>
-                    <tr>
-                      <td>
-                          <%if test_question.question==@current_question%>
-                          <strong>
-                            <%= link_to test_question.question.question,show_current_question_path(test_question.question,:test_id=>@current_test),remote: true%>
-                          </strong>
-                          <%elsif question_attempted(test_question.question.id,@current_test.id)%>
-                          <strong>
-                            <%= link_to test_question.question.question,show_current_question_path(test_question.question,:test_id=>@current_test),remote: true,style:"color:black;"%>
-                          </strong>
-                          <%else%>
-                            <strong>
-                              <%= link_to test_question.question.question,show_current_question_path(test_question.question,:test_id=>@current_test),remote: true,style:"color:green;" %>
-                            </strong>
-                        <%end%>
-                        </td>
-
-                        <td>
-                          <%=  test_question.marks %>
-                        </td>
-                    </tr>
-
-                    <%- end %>
-                </tbody>
-
-            </table>
-
-        </div>
-
-        <!-- Right -->
-        <div class="col-lg-8">
-            <div id="div_with_current_question">
-                <%= render 'current_selected_question', current_question: @current_question %>
-            </div>
-
-        </div>
-
+        <!--footer  -->
+  <div class="panel-footer">
+    <%=link_to "Finish Test",finish_path(@current_test),class:"btn btn-success pull-right"%>
+  </div>
     </div>
-
-      <!--footer  -->
-    <div class="panel-footer">
-      <%=link_to "Finish Test",finish_path(@current_test),class:"btn btn-success pull-right"%>
-    </div>
-</div>
 </div>

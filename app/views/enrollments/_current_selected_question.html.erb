@@ -1,66 +1,62 @@
 <div class="">
 
-  <strong>
-    <%= current_question.question %>
-  </strong>
-  <!-- <%= params%> -->
-  <%= form_tag(submit_clicked_path(@current_test),remote:true) %>
-  <%= hidden_field(:question,:id,:value=>current_question[:id])%>
-  <%= hidden_field(:test,:id,:value=>@current_test.id)%>
-  <%- if current_question.question_type.to_i == 0 %>
-          <%=number_field_tag "response",getValue(@current_test,current_question)%>
+    <strong>
+        <%= current_question.question %>
+    </strong>
+    <!-- <%= params%> -->
+    <%= form_tag(submit_clicked_path(@current_test),remote:true) %>
+      <%= hidden_field(:question,:id,:value=>current_question[:id])%>
+      <%= hidden_field(:test,:id,:value=>@current_test.id)%>
 
-  <%- elsif current_question.question_type.to_i == 1 %>
+      <%- if current_question.question_type.to_i == 0 %>
+        <%=number_field_tag "response",getValue(@current_test,current_question)%>
 
-      <%= radio_button_tag("response","A",check_marked(@current_test,current_question,"A"))%>
-      <label for="">
-        <%= current_question.options[0] %>
-      </label>
-      <br>
+      <%- elsif current_question.question_type.to_i == 1 %>
+        <%= radio_button_tag("response","A",check_marked(@current_test,current_question,"A"))%>
+        <label for="">
+            <%= current_question.options[0] %>
+        </label>
+        <br>
+        <%= radio_button_tag("response","B",check_marked(@current_test,current_question,"B")) %>
+        <label for="">
+            <%= current_question.options[1] %>
+        </label>
+        <br>
+        <%= radio_button_tag("response","C",check_marked(@current_test,current_question,"C")) %>
+        <label for="">
+            <%= current_question.options[2] %>
+        </label>
+        <br>
+        <%= radio_button_tag("response","D",check_marked(@current_test,current_question,"D")) %>
+        <label for="">
+            <%= current_question.options[3] %>
+        </label>
+        <br>
+      <% else %>
+        <%=check_box_tag("response[]","A",check_marked_2(@current_test,current_question,"A"))%>
+        <label for="">
+            <%= current_question.options[0] %>
+        </label>
+        <br>
 
-      <%= radio_button_tag("response","B",check_marked(@current_test,current_question,"B")) %>
-      <label for="">
-        <%= current_question.options[1] %>
-      </label>
-      <br>
+        <%=check_box_tag("response[]","B",check_marked_2(@current_test,current_question,"B"))%>
+        <label for="">
+            <%= current_question.options[1] %>
+        </label>
+        <br>
 
-      <%= radio_button_tag("response","C",check_marked(@current_test,current_question,"C")) %>
-      <label for="">
-        <%= current_question.options[2] %>
-      </label>
-      <br>
+        <%=check_box_tag("response[]","C",check_marked_2(@current_test,current_question,"C"))%>
+        <label for="">
+            <%= current_question.options[2] %>
+        </label>
+        <br>
 
-      <%= radio_button_tag("response","D",check_marked(@current_test,current_question,"D")) %>
-      <label for="">
-        <%= current_question.options[3] %>
-      </label>
-      <br>
-
-  <% else %>
-      <%=check_box_tag("response[]","A",check_marked_2(@current_test,current_question,"A"))%>
-      <label for="">
-        <%= current_question.options[0] %>
-      </label>
-      <br>
-
-      <%=check_box_tag("response[]","B",check_marked_2(@current_test,current_question,"B"))%>
-      <label for="">
-        <%= current_question.options[1] %>
-      </label>
-      <br>
-
-      <%=check_box_tag("response[]","C",check_marked_2(@current_test,current_question,"C"))%>
-      <label for="">
-        <%= current_question.options[2] %>
-      </label>
-      <br>
-
-      <%=check_box_tag("response[]","D",check_marked_2(@current_test,current_question,"D"))%>
-      <label for="">
-        <%= current_question.options[3] %>
-      </label>
+        <%=check_box_tag("response[]","D",check_marked_2(@current_test,current_question,"D"))%>
+        <label for="">
+            <%= current_question.options[3] %>
+        </label>
       <%end%>
 
-  <%= submit_tag("Submit",class:"btn btn-primary") %>
+      <%= submit_tag("Submit",class:"btn btn-primary") %>
 
 </div>
