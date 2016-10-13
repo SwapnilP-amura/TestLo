@@ -2,8 +2,8 @@ class TestQuestion < ActiveRecord::Base
     belongs_to :test
     belongs_to :question
 
-    after_save :add_to_test
-    after_destroy :remove_from_test
+    after_save :add_to_test!
+    after_destroy :remove_from_test!
 
     # marks validation
     validates :marks,
@@ -35,17 +35,13 @@ class TestQuestion < ActiveRecord::Base
 
     private
 
-    def add_to_test
+    def add_to_test!
         @test = self.test
-        @test.change_marks(marks)
-        @test.change_number_of_questions(1)
-        @test.save
+        @test.add_question_with_marks!(marks)
     end
 
-    def remove_from_test
+    def remove_from_test!
         @test = self.test
-        @test.change_marks(-marks)
-        @test.change_number_of_questions(-1)
-        @test.save
+        @test.remove_question_with_marks!(marks)
     end
 end

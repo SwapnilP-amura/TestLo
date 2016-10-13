@@ -48,6 +48,18 @@ class Test < ActiveRecord::Base
     end
 
     # Instance Methods
+    def add_question_with_marks!(marks)
+      self.change_number_of_questions(1)
+      self.change_marks(marks)
+      save
+    end
+
+    def remove_question_with_marks!(marks)
+      self.change_number_of_questions(-1)
+      self.change_marks(-marks)
+      save
+    end
+
     def change_number_of_questions(number)
         self.number_of_questions += number
     end
@@ -56,12 +68,12 @@ class Test < ActiveRecord::Base
         self.marks += marks
     end
 
-    def change_privacy
+    def change_privacy!
         toggle(:private)
         save
     end
 
-    def change_activity
+    def change_activity!
         toggle(:active)
         save
     end

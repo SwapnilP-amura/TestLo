@@ -53,7 +53,7 @@ class TestsController < ApplicationController
     def privacy
         # get_test_by_id
         # check_test_owner
-        if @test.change_privacy
+        if @test.change_privacy!
             flash[:success] = "This test is #{@test.private? ? 'Private' : 'Public'} now"
             redirect_to test_path(@test)
         else
@@ -106,7 +106,7 @@ class TestsController < ApplicationController
 
     def activate_and_flash
         # toggles test activation and displays appropriate flash
-        if @test.change_activity
+        if @test.change_activity!
             flash[:success] = "Test is #{@test.active? ? 'Active' : 'Inactive'} now"
         else
             flash[:danger] = 'Unable to deactivate,Try later'
