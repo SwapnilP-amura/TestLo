@@ -122,7 +122,7 @@ class TestsController < ApplicationController
     end
 
     def check_employer_profile
-        if current_user.employer_detail.nil?
+        if current_user.employer_detail.blank?
             flash[:danger] = 'Complete profile first'
             redirect_to new_employer_detail_path
         end

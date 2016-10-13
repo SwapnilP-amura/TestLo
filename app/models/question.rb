@@ -31,20 +31,20 @@ class Question < ActiveRecord::Base
     def option_map_for_different_question_type
         case question_type
         when 0
-            if options.any? { |x| !x.empty? }
+            if options.any? { |x| !x.blank? }
                 errors.add(:options, 'Options not allowed for integer type')
             end
         when 1
-            errors.add(:options, 'Needs all options') if options.all?(&:empty?)
+            errors.add(:options, 'Needs all options') if options.all?(&:blank?)
         when 2
-            errors.add(:options, 'Needs all option') if options.all?(&:empty?)
+            errors.add(:options, 'Needs all option') if options.all?(&:blank?)
           end
     end
 
     def correct_answers_map_for_different_question_type
         case question_type
         when 0
-            if correct_answer[0].empty?
+            if correct_answer[0].blank?
                 errors.add(:correct_answer, 'Need answer for integer type')
             end
         when 1
@@ -61,7 +61,7 @@ class Question < ActiveRecord::Base
     def no_of_answer
         number = 0
         correct_answer.each do |x|
-            number += 1 unless x.empty?
+            number += 1 unless x.blank?
         end
         number
     end
@@ -70,10 +70,10 @@ class Question < ActiveRecord::Base
 
     # class methods
     def self.get_questions_excluding(test_question_ids)
-        Question.where.not(id: test_question_ids)
+        self.where.not(id: test_question_ids)
     end
 
     def self.get_question_by_id(id)
-        Question.find(id)
+        self.find(id)
     end
 end

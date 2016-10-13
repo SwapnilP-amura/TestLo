@@ -12,7 +12,7 @@ class EnrollmentsController < ApplicationController
         # get_enrollment(also check enrolled or not)
         # check_time
         join_data
-        @enrollment.record_start_time
+        @enrollment.record_start_time!
         @now = @enrollment.get_start_time
     end
 
@@ -30,7 +30,7 @@ class EnrollmentsController < ApplicationController
         # filter time
         @question_id = params[:question][:id]
         @response = params[:response]
-        @enrollment.save_response_for_question(@response, @question_id)
+        @enrollment.save_response_for_question!(@response, @question_id)
         join_data
         @now = @enrollment.get_start_time
         respond_to do |format|
@@ -68,7 +68,7 @@ class EnrollmentsController < ApplicationController
 
     def get_enrollment
         @enrollment = Enrollment.get_enrollment_for_test(@current_test, current_user)
-        if @enrollment.nil?
+        if @enrollment.blank?
             flash[:danger] = 'Enroll First'
             if request.xhr?
                 render js: "window.location = #{student_dashboard_path.to_json}"
@@ -80,7 +80,7 @@ class EnrollmentsController < ApplicationController
 
     def get_test_by_id
         @current_test = Test.get_test_by_id(params[:test_id])
-        if @current_test.nil?
+        if @current_test.blank?
             flash[:danger] = 'Test doesnt exist'
             if request.xhr?
                 render js: "window.location = #{student_dashboard_path.to_json}"
@@ -102,7 +102,7 @@ class EnrollmentsController < ApplicationController
     end
 
     def check_student_profile
-        if current_user.student_detail.nil?
+        if current_user.student_detail.blank?
             if request.xhr?
                 flash[:danger] = 'Complete profile first'
                 render js: "window.location = #{new_student_detail_path.to_json}"
@@ -114,7 +114,7 @@ class EnrollmentsController < ApplicationController
     end
 
     def check_test_time
-        unless @enrollment.start_time.nil?
+        unless @enrollment.start_time.blank?
             # if user is trying to take test more than once
             if Time.now.utc > @enrollment.start_time.plus_with_duration(get_total_seconds(@current_test.duration))
                 flash[:danger] = 'Time is over'
@@ -142,7 +142,7 @@ class EnrollmentsController < ApplicationController
         # filter attempted
         @unattempted = @test_questions.select { |t| question_attempted(t.question.id, @current_test.id) == false }
         # current_question is always first unqttempted
-        if @unattempted.empty?
+        if @unattempted.blank?
             # if all are attempted then select first question from list
             # unqttempted will be empty
             @current_question = @test_questions.first.question
