@@ -34,9 +34,6 @@ Rails.application.routes.draw do
   get 'taketest/:test_id/timeup',to: 'enrollments#timeup'
   post 'taketest/:test_id/submit_clicked' ,to: 'enrollments#submit_clicked', as: :submit_clicked
 
-
-
-
   get 'show_current_question/:id', to: 'enrollments#show_current_question' ,as: :show_current_question
 
 
@@ -48,23 +45,28 @@ Rails.application.routes.draw do
 
   #common for both student and employer
   get 'details/edit',to:'details#edit',as: :edit_details
-  #student_details
-  get '/details/edit_student_details',to:'details#edit_student_details',as: :edit_student_details
-  get '/details/new_student_details',to:'details#new_student_details',as: :new_student_details
-  post '/student_details',to:'details#create_student_details'
-  put '/student_details',to:'details#update_student_details'
-  patch '/student_details',to:'details#update_student_details'
+  # #student_details
+  # get '/details/edit_student_details',to:'details#edit_student_details',as: :edit_student_details
+  # get '/details/new_student_details',to:'details#new_student_details',as: :new_student_details
+  # post '/student_details',to:'details#create_student_details'
+  # put '/student_details',to:'details#update_student_details'
+  # patch '/student_details',to:'details#update_student_details'
+  #
+  # #employer_details
+  # get '/details/edit_employer_details',to:'details#edit_employer_details',as: :edit_employer_details
+  # get '/details/new_employer_details',to:'details#new_employer_details',as: :new_employer_details
+  # post '/employer_details',to:'details#create_employer_details'
+  # put '/employer_details',to:'details#update_employer_details'
+  # patch '/employer_details',to:'details#update_employer_details'
 
-  #employer_details
-  get '/details/edit_employer_details',to:'details#edit_employer_details',as: :edit_employer_details
-  get '/details/new_employer_details',to:'details#new_employer_details',as: :new_employer_details
-  post '/employer_details',to:'details#create_employer_details'
-  put '/employer_details',to:'details#update_employer_details'
-  patch '/employer_details',to:'details#update_employer_details'
+  namespace :student do
+    resources :details,only:[:edit,:new,:create,:update]
+  end
 
-# namespace :employer do
-#   resources :details
-# end
+  namespace :employer do
+    resources :details,only:[:edit,:new,:create,:update]
+  end
+
 #
 #
 #   resources :details

@@ -108,7 +108,7 @@ class EnrollmentsController < ApplicationController
             render :js => "window.location = #{new_student_details_path.to_json}"
           else
             flash[:danger]= 'Complete profile first'
-            redirect_to new_student_details_path
+            redirect_to new_student_detail_path
           end
       end
   end
